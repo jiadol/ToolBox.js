@@ -25,6 +25,8 @@ const createWindow = () => {
     }
     require('@electron/remote/main').initialize()
     require('@electron/remote/main').enable(mainWindow.webContents)
+    require('electron-store').initRenderer()
+    
     mainWindow.on('ready-to-show', () => {
         mainWindow.show
     })

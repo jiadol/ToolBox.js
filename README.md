@@ -1,8 +1,7 @@
-# Vue 3 + Vite + Electron
-# use Pinia for persistant storage
+# 本项目基于Vue 3 + Vite + Electron实现，还处于开发阶段
+# 采用Electron-store进行持久化存储
+# 集成图像降噪放大，OCR识别，以图搜图等功能
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+# 感谢开源项目：
+# https://github.com/nihui/waifu2x-ncnn-vulkan
+# https://github.com/RapidAI/RapidOcrNcnn

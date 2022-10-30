@@ -38,11 +38,10 @@
 
 <script>
 import { CheckCircleTwoTone, CloseCircleTwoTone,InfoCircleTwoTone } from '@ant-design/icons-vue';
-import { storeToRefs } from 'pinia';
 import { defineComponent, reactive, ref } from 'vue';
-import { useStore } from '../store/mainStore';
-const { dialog } = require('@electron/remote')
 import path from 'path-browserify';
+const { dialog } = require('@electron/remote')
+const Store = require('electron-store')
 const fs = require('fs')
 
 export default defineComponent({
@@ -52,7 +51,7 @@ export default defineComponent({
         InfoCircleTwoTone,
     },
     setup() {
-        const { defaultSavePath } = storeToRefs(useStore())
+        const defaultSavePath = ref(new Store().get('defaultPath','C:\\'))
         const formRef = ref();
         const formState = reactive({
             inputPath: defaultSavePath.value,

@@ -103,13 +103,11 @@ export default defineComponent({
             }
         };
 
-        const handleNcnnClick = () => nowSelected.value = 1
         return {
             ...toRefs(state),
             onOpenChange,
             collapsed: ref(true),
             selectedKeys: ref(['1']),
-            handleNcnnClick,
             nowSelected,
         };
     }

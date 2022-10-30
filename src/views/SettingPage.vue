@@ -8,15 +8,14 @@
 </template>
 
 <script>
-import { storeToRefs } from 'pinia'
-import { useStore } from '../store/mainStore.js'
 const { dialog } = require('@electron/remote')
+const Store = require('electron-store')
 import { defineComponent, ref, reactive, toRefs } from 'vue';
 
 export default defineComponent({
     setup() {
-        const store = useStore()
-        const { defaultSavePath } = storeToRefs(store)
+        const store = new Store()
+        const defaultSavePath = ref(store.get('defaultPath','C:\\'))
         const onDir = searchValue => {
             dialog.showOpenDialog({
                 title: 'Select File',
@@ -25,9 +24,9 @@ export default defineComponent({
                     'openDirectory',
                 ],
             }).then((result) => {
-                store.changePath(result.filePaths[0])
+                defaultPath.value = result.filePaths[0]
+                store.set('defaultPath',defaultPath.value)
             })
-
         };
         return {
             defaultSavePath,

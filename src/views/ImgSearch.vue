@@ -24,15 +24,11 @@
     </a-table>
 </template>
 
-<script>
+<script lang="js">
 import { ArrowUpOutlined, CheckCircleTwoTone, CloseCircleTwoTone, InfoCircleTwoTone } from '@ant-design/icons-vue';
-import { acceptHMRUpdate, storeToRefs } from 'pinia';
 import { defineComponent, reactive, ref, toRefs } from 'vue';
-import { useStore } from '../store/mainStore';
 const { dialog } = require('@electron/remote')
-import path from 'path-browserify';
 const fs = require('fs')
-
 
 export default defineComponent({
     components: {
@@ -41,10 +37,9 @@ export default defineComponent({
         InfoCircleTwoTone,
     },
     setup() {
-        const { defaultSavePath } = storeToRefs(useStore())
         const formRef = ref();
         const state = reactive({
-            inputPath: defaultSavePath.value,
+            inputPath: "",
             engine: 1,
             inputLegal: true,
         })
@@ -87,6 +82,19 @@ export default defineComponent({
                 span: 14,
             },
         };
+
+        // const baidubce = async () => {
+
+           
+
+        //     // 设置APPID/AK/SK
+        //     var APP_ID = "28114402";
+        //     var API_KEY = "8V0PxfGQaqqyGvYfq1YssLmc";
+        //     var SECRET_KEY = "pFtBzCarqIqOSilMKf0ixQZFckuQFbhu";
+
+        //     // 新建一个对象，建议只保存一个对象调用服务接口
+        //     var client = new AipImageClassifyClient(APP_ID, API_KEY, SECRET_KEY);
+        // }
 
         const onSubmit = async () => {
             const sagiri = require('sagiri', { results: 5 })

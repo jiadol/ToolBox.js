@@ -73,12 +73,11 @@
     </div>
 </template>
 
-<script>
+<script lang="js">
 import { defineComponent, reactive, toRaw, defineProps, onUpdated, ref } from 'vue';
 import { PoweroffOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons-vue';
 import runshell from '../../ncnn/exec'
-import { useStore } from '../store/mainStore';
-import { storeToRefs } from 'pinia';
+const Store = require('electron-store')
 const { dialog } = require('@electron/remote')
 const fs = require('fs')
 
@@ -90,7 +89,7 @@ export default defineComponent({
     },
 
     setup() {
-        const { defaultSavePath } = storeToRefs(useStore())
+        const defaultSavePath = ref(new Store().get('defaultPath','C:\\'))
         const iconLoading = ref(false)
         const isSuccess = ref(0)
         const inputLegal = ref(false)
