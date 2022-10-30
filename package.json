@@ -1,0 +1,93 @@
+{
+  "name": "waifu2x",
+  "private": true,
+  "version": "0.1.0",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "electron .",
+    "electron:start": "npm run dev && electron .",
+    "exe-build": "vite build & electron-builder --config electron.config.json"
+  },
+  "build": {
+    "productName": "waifu2x",
+    "appId": "com.alc.pkg",
+    "copyright": "@ 2022 alchemaniaC",
+    "directories": {
+      "output": "build"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "./build/icons/aaa.ico",
+      "uninstallerIcon": "./build/icons/bbb.ico",
+      "installerHeaderIcon": "./build/icons/aaa.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "xxxx"
+    },
+    "files": [
+      "dist/electron/**/*"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "icon": "build/icons/icon.icns"
+    },
+    "win": {
+      "icon": "build/icons/aims.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "icon": "build/icons"
+    }
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "@electron/remote": "^2.0.8",
+    "ant-design-vue": "^3.2.13",
+    "node-cmd": "^5.0.0",
+    "path-browserify": "^1.0.1",
+    "pinia": "^2.0.23",
+    "pinia-persistedstate-plugin": "^0.1.0",
+    "pinia-plugin-persist": "^1.0.0",
+    "sagiri": "^3.2.4",
+    "saucenao": "^0.0.2",
+    "save": "^2.9.0",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@types/path-browserify": "^1.0.0",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "concurrently": "^7.4.0",
+    "electron": "^21.2.0",
+    "electron-builder": "^23.6.0",
+    "electron-win-state": "^1.1.22",
+    "nodemon": "^2.0.20",
+    "vite": "^3.1.0",
+    "wait-on": "^6.0.1"
+  }
+}
