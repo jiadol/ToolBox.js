@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "electron .",
-    "electron:start": "npm run dev && electron .",
+    "startall": "npm run dev && electron .",
     "exe-build": "vite build & electron-builder --config electron.config.json"
   },
   "build": {
@@ -66,16 +66,18 @@
     }
   },
   "dependencies": {
-    "@ant-design/icons-vue": "^6.1.0",
     "@electron/remote": "^2.0.8",
-    "ant-design-vue": "^3.2.13",
+    "@element-plus/icons-vue": "^2.0.10",
+    "@paddle-js-models/ocr": "^4.1.0",
     "baidu-aip-sdk": "^4.16.7",
     "electron-store": "^8.1.0",
+    "element-plus": "^2.2.28",
     "node-cmd": "^5.0.0",
     "path-browserify": "^1.0.1",
     "sagiri": "^3.2.4",
     "save": "^2.9.0",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@types/path-browserify": "^1.0.0",
@@ -83,6 +85,8 @@
     "electron": "^21.2.0",
     "electron-builder": "^23.6.0",
     "electron-win-state": "^1.1.22",
+    "unplugin-auto-import": "^0.12.1",
+    "unplugin-vue-components": "^0.22.12",
     "vite": "^3.1.0"
   }
 }
