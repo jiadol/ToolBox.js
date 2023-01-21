@@ -68,7 +68,7 @@
   "dependencies": {
     "@electron/remote": "^2.0.8",
     "@element-plus/icons-vue": "^2.0.10",
-    "@paddle-js-models/ocr": "^4.1.0",
+    "@paddlejs-models/ocr": "^1.2.3",
     "baidu-aip-sdk": "^4.16.7",
     "electron-store": "^8.1.0",
     "element-plus": "^2.2.28",
@@ -76,6 +76,7 @@
     "path-browserify": "^1.0.1",
     "sagiri": "^3.2.4",
     "save": "^2.9.0",
+    "tesseract.js": "^4.0.2",
     "vue": "^3.2.37",
     "vue-router": "^4.1.6"
   },

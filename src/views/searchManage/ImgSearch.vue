@@ -4,7 +4,7 @@
       <el-form ref="formRef" :model="formState">
         <el-form-item label="图片" name="输入路径">
           <el-space>
-            <el-input v-model="formState.inputFile" placeholder="选择文件/文件夹"
+            <el-input v-model="formState.inputPath" placeholder="选择文件/文件夹"
                       size="large" @search="onFile" autocomplete="off" @input="onChange">
               <template #append>
                 <el-button :icon="Search" @click="onFile"/>
