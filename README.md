@@ -11,4 +11,4 @@ https://github.com/RapidAI/RapidOcrNcnn
 运行npm run exe-build\
 注意以下几点\
 1.打包时在main.js里注释掉控制台\
-2.打包后在win-unpacked下加入ncnn与rapidocr(将整合进项目)，然后使用打包软件（非electron builder）打包
+2.打包后在win-unpacked下加入ncnn 与rapidocr(将整合进项目)，然后使用打包软件（非electron builder）打包
