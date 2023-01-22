@@ -34,7 +34,11 @@
       </el-form>
     </el-main>
     <el-footer>
-      <el-table :columns="columns" :datel-source="resultData">
+      <el-table :data="resultData" stripe style="width: 100%">
+        <el-table-column prop="site" label="数据来源" width="180"/>
+        <el-table-column prop="similarity" label="置信度" width="180"/>
+        <el-table-column prop="author" label="作者" width="180"/>
+        <el-table-column prop="url" label="链接" width="180" fixed/>
       </el-table>
     </el-footer>
   </el-container>
@@ -127,37 +131,13 @@ const onSubmit = async () => {
   })
 }
 
-const handleRefresh=()=>{
+const handleRefresh = () => {
 
 }
 
 const resetForm = () => {
   formState.resultData.value = []
 };
-
-
-const columns = [
-  {
-    title: '数据来源',
-    dataIndex: 'site',
-    key: 'site',
-  },
-  {
-    title: '置信度',
-    dataIndex: 'similarity',
-    key: 'similarity',
-  },
-  {
-    title: '作者',
-    dataIndex: 'author',
-    key: 'author',
-  },
-  {
-    title: '链接',
-    dataIndex: 'url',
-    key: 'url'
-  }
-];
 
 const marks = {
   0: 'baidubce',

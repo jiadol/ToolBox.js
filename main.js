@@ -15,6 +15,7 @@ const createWindow = () => {
             // 开启node // 开启remote
             nodeIntegration: true,   //添加语句
             contextIsolation: false,   //添加语句
+            webSecurity:false //关闭chrome安全性，可以加载本地文件
         }
     })
     // mainWindow.loadFile("./dist/index.html")

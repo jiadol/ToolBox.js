@@ -2,8 +2,7 @@
   <div class="common-layout">
     <el-container>
       <el-aside>
-        <el-menu default-active="1" v-model="nowIndex" class="el-menu-vertical-demo" :collapse="isCollapse" router
-                 style="height:100vh">
+        <el-menu default-active="1" v-model="nowIndex" class="main-menu" router>
           <el-menu-item index="ncnn">
             <el-icon>
               <Cellphone/>
@@ -32,9 +31,7 @@
       </el-aside>
       <el-container>
         <el-main>
-          <el-row type="flex" justify="center" align="middle">
-            <router-view></router-view>
-          </el-row>
+          <router-view></router-view>
         </el-main>
         <el-footer align="center">
           <span>@ 2022 alchemaniaC All Rights Reserved<br/>*Version 0.3 beta</span>
@@ -69,19 +66,23 @@ const handleSelect = (key, keyPath) => {
 <style scoped>
 .el-aside {
   width: 200px;
+  height: 100%;
 }
 
-.el-row:last-child {
-  margin-bottom: 0;
+.main-menu{
+  height: 100vh;
 }
+/*.el-row:last-child {*/
+/*  margin-bottom: 0;*/
+/*}*/
 
-.el-col {
-  border-radius: 4px;
-}
+/*.el-col {*/
+/*  border-radius: 4px;*/
+/*}*/
 
-.el-header {
-  padding: 0%
-}
+/*.el-header {*/
+/*  padding: 0%*/
+/*}*/
 
 .flex-grow {
   flex-grow: 1;

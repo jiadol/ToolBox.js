@@ -16,9 +16,9 @@
         <el-form-item label="输出路径">
           <el-space>
             <el-input v-model="formState.outputPath" placeholder="input search text"
-                      enter-button="Search" size="large" @search="onDir" @input="onChange(formState.outputPath)">
+                      enter-button="Search" size="large" @input="onChange(formState.outputPath)">
               <template #append>
-                <el-button :icon="Search" @click="onFile"/>
+                <el-button :icon="Search" @click="onDir"/>
               </template>
             </el-input>
             <IconAutoChange :value="outputLegal"/>
@@ -61,19 +61,14 @@
       </el-form>
     </el-main>
     <el-footer>
-      <div :style="{ padding: '24px', background: '#fff', minHeight: '100px' }" v-if="isSuccess === 3">
-        <el-steps :current="1">
-          <el-step title="输入"/>
-          <el-step title="处理" status="error"/>
-          <el-step title="输出"/>
-        </el-steps>
-      </div>
-      <div :style="{ padding: '24px', background: '#fff', minHeight: '100px' }" v-else>
-        <el-steps :current="isSuccess">
-          <el-step title="输入"/>
-          <el-step title="处理"/>
-          <el-step title="输出"/>
-        </el-steps>
+      <el-divider/>
+      <div :style="{ padding: '24px', background: '#fff', minHeight: '100px' }" align="center">
+        <el-progress :percentage="percentage" :status="pStatus" type="dashboard">
+          <template #default="{ percentage }">
+            <span class="percentage-value">{{ percentage }}%</span><br/>
+            <span class="percentage-label">{{ pDeclaration }}</span>
+          </template>
+        </el-progress>
       </div>
     </el-footer>
   </el-container>
@@ -84,6 +79,7 @@ import {Search, CircleCheck, CircleClose, SwitchButton} from '@element-plus/icon
 import {defineComponent, reactive, toRaw, onUpdated, ref} from 'vue';
 import runshell from '../../../ncnn/exec'
 import IconAutoChange from "../../components/IconAutoChange.vue";
+import {ElMessage} from "element-plus";
 
 const Store = require('electron-store')
 const {dialog} = require('@electron/remote')
@@ -102,6 +98,10 @@ const formState = reactive({
   upscale: '1',
 })
 
+const pStatus = ref("success")
+const percentage = ref(0)
+const pDeclaration = ref("未开始")
+
 const onChange = async (dir) => await fs.promises.access(dir, fs.constants.F_OK, (err) => inputLegal.value = err ? false : true);
 
 const onFile = searchValue => {
@@ -119,7 +119,7 @@ const onFile = searchValue => {
     ],
   }).then((result) => {
     formState.inputPath = result.filePaths[0]
-    onChangeInput()
+    onChange(formState.outputPath)
   })
 
 };
@@ -132,34 +132,43 @@ const onDir = searchValue => {
     ],
   }).then((result) => {
     formState.outputPath = result.filePaths[0]
-    onChangeOutput()
+    onChange(formState.outputPath)
   })
 
 };
 const onSubmit = () => {
   iconLoading.value = true
-  const cmd = runshell(formState) //get cmd
-  const exec = require('child_process').exec;
-  console.log("child-process load successfully.")
-  isSuccess.value = 1
+  percentage.value = 0
   if (!inputLegal.value || !outputLegal.value) {
-    isSuccess.value = 3
+    ElMessage({
+      type: "error",
+      message: "输入/输出不可以为空"
+    })
     iconLoading.value = false
     return
   }
+
+  const cmd = runshell(formState) //get cmd
+  const exec = require('child_process').exec;
+  console.log("child-process load successfully.")
+  percentage.value = 50
+  pDeclaration.value = "子进程加载完成"
+
   try {
     exec(cmd, (error, stdout, stderr) => {
       console.log("running " + cmd)
       if (error) {
-        isSuccess.value = 3
-        console.log(isSuccess)
+        pStatus.value = "exception"
+        pDeclaration.value = "出现错误"
+        return
       }
-      isSuccess.value = 2
+      percentage.value = 100
+      pDeclaration.value = "图片处理完成"
       iconLoading.value = false
     })
   } catch (error) {
-    isSuccess.value = 3
-    console.error(error)
+    pStatus.value = "exception"
+    pDeclaration.value = "出现未知错误"
     iconLoading.value = false
   }
 };
