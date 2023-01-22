@@ -4,8 +4,8 @@
       <el-form :model="formState">
         <el-form-item label="输入路径">
           <el-space>
-            <el-input v-model="formState.inputFile" placeholder="input search text"
-                      size="large" @input="onChangeInput" class="input-with-select">
+            <el-input v-model="formState.inputPath" placeholder="input search text"
+                      size="large" @input="onChange(formState.inputPath)" class="input-with-select">
               <template #append>
                 <el-button :icon="Search" @click="onFile"/>
               </template>
@@ -15,8 +15,8 @@
         </el-form-item>
         <el-form-item label="输出路径">
           <el-space>
-            <el-input v-model="formState.outputDir" placeholder="input search text"
-                      enter-button="Search" size="large" @search="onDir" @input="onChangeOutput">
+            <el-input v-model="formState.outputPath" placeholder="input search text"
+                      enter-button="Search" size="large" @search="onDir" @input="onChange(formState.outputPath)">
               <template #append>
                 <el-button :icon="Search" @click="onFile"/>
               </template>
@@ -96,15 +96,13 @@ const isSuccess = ref(0)
 const inputLegal = ref(false)
 const outputLegal = ref(true)
 const formState = reactive({
-  inputFile: "",
-  outputDir: defaultSavePath.value,
+  inputPath: "",
+  outputPath: defaultSavePath.value,
   denoise: '0',
   upscale: '1',
 })
 
-const onChangeInput = async () => await fs.promises.access(formState.inputFile, fs.constants.F_OK, (err) => inputLegal.value = err ? false : true);
-
-const onChangeOutput = async () => await fs.promises.access(formState.outputDir, fs.constants.F_OK, (err) => outputLegal.value = err ? false : true);
+const onChange = async (dir) => await fs.promises.access(dir, fs.constants.F_OK, (err) => inputLegal.value = err ? false : true);
 
 const onFile = searchValue => {
   dialog.showOpenDialog({
@@ -120,7 +118,7 @@ const onFile = searchValue => {
       'openFile',
     ],
   }).then((result) => {
-    formState.inputFile = result.filePaths[0]
+    formState.inputPath = result.filePaths[0]
     onChangeInput()
   })
 
@@ -133,7 +131,7 @@ const onDir = searchValue => {
       'openDirectory',
     ],
   }).then((result) => {
-    formState.outputDir = result.filePaths[0]
+    formState.outputPath = result.filePaths[0]
     onChangeOutput()
   })
 
@@ -168,8 +166,8 @@ const onSubmit = () => {
 
 const handleRefresh = () => {
   formState.denoise = '0';
-  formState.inputFile = ""
-  formState.outputDir = defaultSavePath.value
+  formState.inputPath = ""
+  formState.outputPath = defaultSavePath.value
   formState.upscale = '1'
   isSuccess.value = 0
   inputLegal.value = false;

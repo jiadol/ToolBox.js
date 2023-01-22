@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="formRef" name="custom-validation" :model="formState" v-bind="layout">
+  <el-form ref="formRef" name="custom-validation">
     <el-form-item has-feedback label="图片/文件夹" name="输入路径">
       <el-space direction="vertical">
         <el-input v-model="defaultSavePath" placeholder="input search text"

@@ -14,7 +14,7 @@
           </el-space>
         </el-form-item>
         <el-form-item label="选择引擎">
-          <el-radio-group v-model="formState.denoise" button-style="solid">
+          <el-radio-group v-model="formState.engine" button-style="solid">
             <template v-for="(value,key) in marks">
               <el-radio-button :label="key">{{ value }}</el-radio-button>
             </template>
@@ -23,7 +23,9 @@
         <el-form-item :wrapper-col="{ span: 14, offset: 4 }">
           <el-button type="primary" :loading="iconLoading" @click="onSubmit">
             <template #icon>
-              <el-icon><SwitchButton/></el-icon>
+              <el-icon>
+                <SwitchButton/>
+              </el-icon>
             </template>
             提交
           </el-button>
@@ -41,20 +43,23 @@
 <script setup>
 import {defineComponent, reactive, ref, toRefs} from 'vue';
 import {Search, SwitchButton} from "@element-plus/icons-vue";
+import IconAutoChange from "../../components/IconAutoChange.vue";
 
 const {dialog} = require('@electron/remote')
 const fs = require('fs')
+const Store = require('electron-store')
 
 
 const formRef = ref();
 const formState = reactive({
-  inputPath: "",
+  inputPath: new Store().get('defaultPath', 'C:\\'),
   engine: 1,
   inputLegal: true,
 })
 
 const isSuccess = ref(0)
 const resultData = ref([])
+const iconLoading = ref(false)
 
 const onChange = async () => {
   await fs.promises.access(formState.inputPath, fs.constants.F_OK, (err) => {
@@ -120,6 +125,10 @@ const onSubmit = async () => {
     })
     console.log(resultData.value)
   })
+}
+
+const handleRefresh=()=>{
+
 }
 
 const resetForm = () => {

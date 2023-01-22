@@ -55,16 +55,14 @@ import {Search, SwitchButton, Warning} from "@element-plus/icons-vue";
 import IconAutoChange from "../../components/IconAutoChange.vue";
 import Tesseract from "tesseract.js";
 
-
 const {dialog} = require('@electron/remote')
 const Store = require('electron-store')
 const fs = require('fs')
 
-const store = new Store()
-const defaultSavePath = ref(store.get('defaultPath', 'C:\\'))
+
 const formRef = ref();
 const formState = reactive({
-  inputPath: '',
+  inputPath: new Store().get('defaultPath', 'C:\\'),
   doAngle: false,
   gpu: false,
 });
@@ -89,7 +87,6 @@ const onFile = searchValue => {
     ],
   }).then((result) => { //在此读取图片
     formState.inputPath = result.filePaths[0]
-    console.log(formState.inputPath)
     onChange()
   })
 };
@@ -102,6 +99,22 @@ const layout = {
     span: 14,
   },
 };
+
+
+const onSubmit = async () => {
+  await Tesseract.recognize(
+      formState.inputPath,
+      'chi_sim',
+      {logger: m => console.log(m)}
+  ).then(({data: {text}}) => {
+    console.log(text);
+  })
+}
+
+const resetForm = () => {
+  resultData.value = []
+};
+
 
 // const onSubmit = () => {
 //   //commands
@@ -161,21 +174,4 @@ const layout = {
 //   }
 //
 // }
-const onSubmit = async () => {
-  await Tesseract.recognize(
-      formState.inputPath,
-      'chi_sim',
-      {logger: m => console.log(m)}
-  ).then(({data: {text}}) => {
-    console.log(text);
-  })
-}
-
-const resetForm = () => {
-  resultData.value = []
-};
-
-watch(formState, () => {
-  console.log(formState)
-})
 </script>
