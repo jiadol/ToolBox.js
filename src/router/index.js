@@ -4,23 +4,23 @@ import * as VueRouter from 'vue-router'
 const routes = [
     {
         path: '/',
-        component: import('../views/Layout.vue'),
+        component: () => import('../views/Layout.vue'),
         children: [
             {
                 path: '/search',
-                component: import('../views/searchManage/ImgSearch.vue'),
+                component: () => import('../views/searchManage/ImgSearch.vue'),
             },
             {
                 path: '/ncnn',
-                component: import('../views/ncnnManage/Ncnn.vue'),
+                component: () => import('../views/ncnnManage/Ncnn.vue'),
             },
             {
                 path: '/ocr',
-                component: import('../views/ocrManage/Ocr.vue'),
+                component: () => import('../views/ocrManage/Ocr.vue'),
             },
             {
                 path: '/settings',
-                component: import('../views/settingManage/Settings.vue'),
+                component: () => import('../views/settingManage/Settings.vue'),
             },
         ]
     },

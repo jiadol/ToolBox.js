@@ -53,12 +53,12 @@ import {computed, defineComponent, reactive, ref, watch} from 'vue';
 import path from 'path-browserify';
 import {Search, SwitchButton, Warning} from "@element-plus/icons-vue";
 import IconAutoChange from "../../components/IconAutoChange.vue";
-import Tesseract from "tesseract.js";
+import * as ocr from '@paddlejs-models/ocr'
 
 const {dialog} = require('@electron/remote')
 const Store = require('electron-store')
 const fs = require('fs')
-
+const tf = require('@tensorflow/tfjs-node')
 
 const formRef = ref();
 const formState = reactive({
@@ -69,6 +69,7 @@ const formState = reactive({
 const inputLegal = ref(true)
 const isSuccess = ref(0)
 const resultData = ref([])
+const haveInit = ref(false)
 
 const onChange = async () => await fs.promises.access(formState.inputPath, fs.constants.F_OK, (err) => inputLegal.value = err ? false : true);
 
@@ -102,13 +103,13 @@ const layout = {
 
 
 const onSubmit = async () => {
-  await Tesseract.recognize(
-      formState.inputPath,
-      'chi_sim',
-      {logger: m => console.log(m)}
-  ).then(({data: {text}}) => {
-    console.log(text);
-  })
+  const model = await tf.loadGraphModel('/tfjsmodels/model.json')
+  // loading image
+  const input_file = fs.readFileSync(formState.inputPath)
+  let origin_image = tf.node.decodeImage(input_file, 3)
+  const resized_image = tf.image.resizeBilinear(origin_image, [48, 48])
+  const t4d = tf.tensor4d(Array.from(resized_image.dataSync()), [1, 48, 48, 3]);
+  await model.predictAsync(t4d).then(res => console.log(res))
 }
 
 const resetForm = () => {
@@ -121,7 +122,7 @@ const resetForm = () => {
 //   const os = require('os')
 //   const cmdpath = path.resolve()
 //   const cmd = (formState.gpu ? cmdpath + "\\RapidOcr-ncnn\\win-BIN-GPU-x64\\RapidOcrNcnn.exe" : cmdpath + "\\RapidOcr-ncnn\\win-BIN-CPU-x64\\RapidOcrNcnn.exe")
-//       + " --models " + cmdpath + "\\RapidOcr-ncnn\\models"
+//       + " --tfjsmodels " + cmdpath + "\\RapidOcr-ncnn\\tfjsmodels"
 //       + " --det ch_PP-OCRv3_det_infer"
 //       + " --cls ch_ppocr_mobile_v2.0_cls_infer"
 //       + " --rec ch_PP-OCRv3_rec_infer"

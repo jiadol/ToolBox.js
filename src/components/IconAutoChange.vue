@@ -13,7 +13,7 @@
 
 <script setup>
 import {CircleCheck, CircleClose} from '@element-plus/icons-vue'
-import {ref} from 'vue'
+import {defineProps} from 'vue'
 
 const props = defineProps(['value'])
 </script>

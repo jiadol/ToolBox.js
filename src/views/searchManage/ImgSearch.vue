@@ -52,7 +52,7 @@ import IconAutoChange from "../../components/IconAutoChange.vue";
 const {dialog} = require('@electron/remote')
 const fs = require('fs')
 const Store = require('electron-store')
-
+// const sagiri = require('sagiri', {results: 5})
 
 const formRef = ref();
 const formState = reactive({
@@ -114,7 +114,6 @@ const layout = {
 // }
 
 const onSubmit = async () => {
-  const sagiri = require('sagiri', {results: 5})
   const cilent = sagiri("e45d818ace236475d45afa438d0f14826208724e")
   await cilent(formState.inputPath).then(res => {
     res.forEach(element => {
