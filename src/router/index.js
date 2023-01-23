@@ -8,15 +8,24 @@ const routes = [
         children: [
             {
                 path: '/search',
+                name: 'ImgSearch',
                 component: () => import('../views/searchManage/ImgSearch.vue'),
             },
             {
                 path: '/ncnn',
+                name: 'Ncnn',
                 component: () => import('../views/ncnnManage/Ncnn.vue'),
+                meta: {
+                    keepAlive: true
+                }
             },
             {
                 path: '/ocr',
+                name: 'Ocr',
                 component: () => import('../views/ocrManage/Ocr.vue'),
+                meta: {
+                    keepAlive: true
+                }
             },
             {
                 path: '/settings',

@@ -31,7 +31,10 @@
       </el-aside>
       <el-container>
         <el-main>
-          <router-view></router-view>
+          <keep-alive>
+            <router-view class="layout-body" v-if="$route.meta.keepAlive"/>
+          </keep-alive>
+          <router-view class="layout-body" v-if="!$route.meta.keepAlive"/>
         </el-main>
         <el-footer align="center">
           <span>@ 2022 alchemaniaC All Rights Reserved<br/>*Version 0.3 beta</span>
@@ -69,9 +72,10 @@ const handleSelect = (key, keyPath) => {
   height: 100%;
 }
 
-.main-menu{
+.main-menu {
   height: 100vh;
 }
+
 /*.el-row:last-child {*/
 /*  margin-bottom: 0;*/
 /*}*/
