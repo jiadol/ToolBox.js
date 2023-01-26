@@ -1,14 +1,34 @@
-# ToolBox
-本项目基于Vue 3 + Vite + Electron实现，还处于开发阶段
-采用Electron-store进行持久化存储
-集成图像降噪放大，OCR识别，以图搜图等功能
+# toolbox.js
 
-# 感谢开源项目：
-https://github.com/nihui/waifu2x-ncnn-vulkan
-https://github.com/RapidAI/RapidOcrNcnn
+An Electron application with Vue
 
-# build 步骤
-运行npm run exe-build\
-注意以下几点\
-1.打包时在main.js里注释掉控制台\
-2.打包后在win-unpacked下加入ncnn 与rapidocr(将整合进项目)，然后使用打包软件（非electron builder）打包
+## Recommended IDE Setup
+
+- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+## Project Setup
+
+### Install
+
+```bash
+$ npm install
+```
+
+### Development
+
+```bash
+$ npm run dev
+```
+
+### Build
+
+```bash
+# For windows
+$ npm run build:win
+
+# For macOS
+$ npm run build:mac
+
+# For Linux
+$ npm run build:linux
+```

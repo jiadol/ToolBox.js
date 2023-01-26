@@ -1,9 +1,0 @@
-{
-    "files": [
-        "main.js",
-        "preload.js",
-        "./dist",
-        "./ncnn"
-    ],
-    "productName": "waifu2x"
-}
