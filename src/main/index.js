@@ -4,6 +4,8 @@ import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 import sagiri from "sagiri";
 
+const { createWorker } = require("tesseract.js");
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -14,11 +16,12 @@ function createWindow() {
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
-      // sandbox: false,
+      sandbox: false,
       // 开启node // 开启remote
       nodeIntegration: true,   //添加语句
       contextIsolation: false,   //添加语句
-      webSecurity: false //关闭chrome安全性，可以加载本地文件
+      webSecurity: false, //关闭chrome安全性，可以加载本地文件
+
     }
   });
 
@@ -95,3 +98,4 @@ ipcMain.on("rtm-sagiri", async (event, message) => {
     event.reply("mtr-sagiri", e);
   }
 });
+

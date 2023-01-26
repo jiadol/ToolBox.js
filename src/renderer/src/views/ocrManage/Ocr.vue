@@ -26,6 +26,15 @@
         type="textarea"
         placeholder="No results"
       />
+      <el-divider />
+      <div :style="{ padding: '24px', background: '#fff', minHeight: '100px' }" align="center">
+        <el-progress :percentage="percentage" :status="pStatus" type="dashboard">
+          <template #default="{ percentage }">
+            <span class="percentage-value">{{ percentage }}%</span><br />
+            <span class="percentage-label">{{ pDeclaration }}</span>
+          </template>
+        </el-progress>
+      </div>
     </el-footer>
   </el-container>
 </template>
@@ -33,66 +42,88 @@
 <script setup>
 import { reactive, ref, h, onBeforeMount } from "vue";
 import { Search, SwitchButton, Warning } from "@element-plus/icons-vue";
-import * as ocr from "./lib/index";
 import { ElLoading, ElMessage, ElNotification } from "element-plus";
 import ImageSelect from "../../components/ImageSelect.vue";
-import electron from "electron";
+import Tesseract from "tesseract.js";
 
-
-const { dialog } = require("@electron/remote/main");
+const { dialog } = require("@electron/remote");
 const Store = require("electron-store");
-const fs = require("fs");
 
 const formRef = ref();
-
-const inputLegal = ref(true);
-const isSuccess = ref(0);
 const resultData = ref("");
-const haveInit = ref(false);
 
 const imgHide = ref();
 const img = ref(null);
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
-const handleImageChange = (file) => imgHide.value = URL.createObjectURL(file.raw);
+
+const percentage = ref(0);
+const pStatus = ref();
+const pDeclaration = ref("未开始");
 
 const onSubmit = async function() {
-  const res = await ocr.recognize(document.getElementById("imgsource"));
-  console.log("res:", res);
-  ElNotification({
-    title: "Ocr",
-    message: h("i", { style: "color: teal" }, "ocr识别任务已完成")
-  });
-  for (const re of res.text) {
-    resultData.value += re;
-    resultData.value += "\n";
+  try {
+    Tesseract.recognize(
+      img.value.path,
+      "chi_sim+eng",
+      {
+        logger: m => {
+          pDeclaration.value = m.status;
+          percentage.value = Math.floor(m.progress * 100);
+        }
+      }
+    ).then(({ data: { text } }) => {
+      resultData.value = text;
+      pDeclaration.value = "已完成";
+      pStatus.value = "success";
+    });
+  } catch (e) {
+    pDeclaration.value = "Ocr Core出现未知错误";
+    pStatus.value = "exception";
   }
-};
 
-const handlePictureCardPreview = (uploadFile) => {
-  dialogImageUrl.value = uploadFile.url;
-  dialogVisible.value = true;
 };
 
 const resetForm = () => {
   resultData.value = [];
 };
 
-onBeforeMount(async () => {
-  const loading = ElLoading.service({
-    lock: true,
-    text: "预热OCR模块中，预计需要一分钟，请耐心等待",
-    background: "rgb(255,255,255)"
-  });
-  // electron.ipcRenderer.send("rtm-ocr", "init");
-  // electron.ipcRenderer.on("mtr-ocr", (event, initOk, message) => {
-  //   loading.close();
-  //   if (!initOk)
-  //     ElMessage({
-  //       type: "error",
-  //       message: "出现错误，无法使用该模块"
-  //     });
-  // });
-  await ocr.init();
-});
+
 </script>
+
+<style lang="scss">
+.el-textarea {
+
+  /*滚动条整体部分*/
+  .el-textarea__inner::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  /*滚动条的轨道*/
+  .el-textarea__inner::-webkit-scrollbar-track {
+    background-color: #ffffff;
+  }
+
+  /*滚动条里面的小方块，能向上向下移动*/
+  .el-textarea__inner::-webkit-scrollbar-thumb {
+    background-color: rgba(144, 147, 153, 0.3);
+    border-radius: 5px;
+    border: 1px solid #f1f1f1;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .el-textarea__inner::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(144, 147, 153, 0.3);
+  }
+
+  .el-textarea__inner::-webkit-scrollbar-thumb:active {
+    background-color: rgba(144, 147, 153, 0.3);
+  }
+
+  /*边角，即两个滚动条的交汇处*/
+  .el-textarea__inner::-webkit-scrollbar-corner {
+    background-color: #ffffff;
+  }
+}
+</style>

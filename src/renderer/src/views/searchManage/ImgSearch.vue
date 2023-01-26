@@ -70,7 +70,6 @@ const electron = require("electron");
 const formRef = ref();
 const formState = reactive({
   engine: 1,
-  inputLegal: true,
   img: null
 });
 
@@ -80,8 +79,6 @@ const iconLoading = ref(false);
 
 const runSagiri = async () => {
   electron.ipcRenderer.send("rtm-sagiri", formState.img.path.toString());
-  // const res = await client(rot);
-  // console.log(res);
   electron.ipcRenderer.on("mtr-sagiri", (event, message) => {
     console.log(message);
     if (!Array.isArray(message)) return;
@@ -124,7 +121,4 @@ const marks = {
   2: "sauceNAO"
 };
 
-watch(formState, () => {
-  console.log(formState);
-});
 </script>

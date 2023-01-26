@@ -19,6 +19,7 @@ export default defineConfig({
         util: "util/"
       }
     },
+    base: "./",
     plugins: [vue()],
     pluginOptions: {
       electronBuilder: {
