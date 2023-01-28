@@ -2,8 +2,6 @@ import { resolve } from "path";
 import { defineConfig, externalizeDepsPlugin } from "electron-vite";
 import vue from "@vitejs/plugin-vue";
 
-const path = require("path-browserify");
-
 export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()]
@@ -14,8 +12,7 @@ export default defineConfig({
   renderer: {
     resolve: {
       alias: {
-        "@renderer": resolve("src/renderer/src"),
-        path: "path-browserify"
+        "@renderer": resolve("src/renderer/src")
       }
     },
     base: "./",

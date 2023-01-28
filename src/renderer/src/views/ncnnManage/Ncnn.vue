@@ -79,11 +79,10 @@ import { Search, CircleCheck, CircleClose, SwitchButton } from "@element-plus/ic
 import { defineComponent, reactive, toRaw, onUpdated, ref } from "vue";
 import IconAutoChange from "../../components/IconAutoChange.vue";
 import { ElMessage } from "element-plus";
-import path from "path-browserify";
 
 const { dialog } = require("@electron/remote");
-const fs = require("fs");
-
+const fs = require("node:fs");
+const path = require("node:path");
 
 const iconLoading = ref(false);
 const isSuccess = ref(0);
@@ -183,11 +182,7 @@ const handleRefresh = () => {
 
 const runshell = () => {
   const cmdpath = path.resolve();
-  if (process.env.NODE_ENV === "development") {
-    return cmdpath + "\\resources\\ncnn\\waifu2x-ncnn-vulkan.exe " + "-i " + formState.inputPath + " -o " + formState.outputPath + "\\output.png" + " -n " + formState.denoise + " -s " + formState.upscale;
-  } else {
-    return cmdpath + "\\ncnn\\waifu2x-ncnn-vulkan.exe " + "-i " + formState.inputPath + " -o " + formState.outputPath + "\\output.png" + " -n " + formState.denoise + " -s " + formState.upscale;
-  }
+  return cmdpath + "\\resources\\ncnn\\waifu2x-ncnn-vulkan.exe " + "-i " + formState.inputPath + " -o " + formState.outputPath + "\\output.png" + " -n " + formState.denoise + " -s " + formState.upscale;
 };
 </script>
 

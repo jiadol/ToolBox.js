@@ -7,6 +7,9 @@ files:
   - '!src/*'
   - '!electron.vite.config.{js,ts,mjs,cjs}'
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+extraResources:
+  from: "resources/ncnn"
+  to: "ncnn"
 asarUnpack:
   - resources/*
 afterSign: build/notarize.js
