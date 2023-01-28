@@ -81,19 +81,17 @@ import IconAutoChange from "../../components/IconAutoChange.vue";
 import { ElMessage } from "element-plus";
 import path from "path-browserify";
 
-const Store = require("electron-store");
 const { dialog } = require("@electron/remote");
 const fs = require("fs");
 
 
-const defaultSavePath = ref(new Store().get("defaultPath", "C:\\"));
 const iconLoading = ref(false);
 const isSuccess = ref(0);
 const inputLegal = ref(false);
 const outputLegal = ref(true);
 const formState = reactive({
   inputPath: "",
-  outputPath: defaultSavePath.value,
+  outputPath: "",
   denoise: "0",
   upscale: "1"
 });
@@ -134,8 +132,8 @@ const onDir = searchValue => {
     formState.outputPath = result.filePaths[0];
     onChange(formState.outputPath);
   });
-
 };
+
 const onSubmit = () => {
   iconLoading.value = true;
   percentage.value = 0;

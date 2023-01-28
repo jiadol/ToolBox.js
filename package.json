@@ -24,7 +24,6 @@
     "@paddlejs-models/ocr": "^1.2.3",
     "baidu-aip-sdk": "^4.16.9",
     "electron-log": "^4.4.8",
-    "electron-store": "^8.1.0",
     "electron-updater": "^5.3.0",
     "element-plus": "^2.2.28",
     "path-browserify": "^1.0.1",

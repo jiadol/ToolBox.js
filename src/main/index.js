@@ -3,7 +3,7 @@ import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 import sagiri from "sagiri";
-import { sequelize, db_path } from "../db";
+import { sequelize, db_path, envDb } from "../db";
 
 function createWindow() {
   // Create the browser window.
@@ -35,7 +35,6 @@ function createWindow() {
   Menu.setApplicationMenu(null);
   require("@electron/remote/main").initialize();
   require("@electron/remote/main").enable(mainWindow.webContents);
-  require("electron-store").initRenderer();
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
@@ -105,11 +104,22 @@ ipcMain.on("rtm-sagiri", async (event, message) => {
   }
 });
 
-ipcMain.on("rtm-sqlite", async (event, message) => {
+ipcMain.on("rtm-settings", async (event, message) => {
   try {
-    await sequelize.authenticate();
-    event.reply("mtr-sqlite", db_path);
+    const _tmp = JSON.parse(message);
+    for (const [key, value] of Object.entries(_tmp)) {
+      const _col = await envDb.findByPk(key);
+      if (_col === null) {
+        await envDb.create({
+          KEY: key, VALUE: value
+        });
+      } else {
+        _col.VALUE = value;
+        await _col.save();
+      }
+    }
+    event.reply("mtr-settings", true);
   } catch (e) {
-    event.reply("mtr-sqlite", false);
+    event.reply("mtr-settings", false);
   }
 });

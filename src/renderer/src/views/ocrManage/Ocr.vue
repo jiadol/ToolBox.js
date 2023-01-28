@@ -47,7 +47,6 @@ import ImageSelect from "../../components/ImageSelect.vue";
 import Tesseract from "tesseract.js";
 
 const { dialog } = require("@electron/remote");
-const Store = require("electron-store");
 
 const formRef = ref();
 const resultData = ref("");
