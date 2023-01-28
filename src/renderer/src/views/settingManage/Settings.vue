@@ -14,12 +14,11 @@
 </template>
 
 <script setup>
-import { ref, reactive, toRefs } from "vue";
+import { ref, reactive, toRefs, onMounted } from "vue";
 import { Search } from "@element-plus/icons-vue";
 
 const { dialog } = require("@electron/remote");
 const Store = require("electron-store");
-
 
 const store = new Store();
 const defaultSavePath = ref(store.get("defaultPath", "C:\\"));
@@ -36,6 +35,12 @@ const onDir = searchValue => {
   });
 };
 
+onMounted(async () => {
+  electron.ipcRenderer.send("rtm-sqlite", null);
+  electron.ipcRenderer.on("mtr-sqlite", (event, message) => {
+    console.log(message);
+  });
+});
 </script>
 
 <style lang="css">

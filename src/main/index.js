@@ -1,10 +1,9 @@
-import { app, shell, BrowserWindow, Menu, ipcMain } from "electron";
+import { app, shell, BrowserWindow, Menu, ipcMain, globalShortcut } from "electron";
 import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 import sagiri from "sagiri";
-
-const { createWorker } = require("tesseract.js");
+import { sequelize, db_path } from "../db";
 
 function createWindow() {
   // Create the browser window.
@@ -20,7 +19,7 @@ function createWindow() {
       // 开启node // 开启remote
       nodeIntegration: true,   //添加语句
       contextIsolation: false,   //添加语句
-      webSecurity: false, //关闭chrome安全性，可以加载本地文件
+      webSecurity: false //关闭chrome安全性，可以加载本地文件
 
     }
   });
@@ -53,6 +52,13 @@ function createWindow() {
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId("com.electron");
+
+  //Set global shortCuts
+  globalShortcut.register("CommandOrControl+J+K", () => {
+    // 获取当前窗口
+    BrowserWindow.getFocusedWindow().webContents.openDevTools();
+  });
+
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -99,3 +105,11 @@ ipcMain.on("rtm-sagiri", async (event, message) => {
   }
 });
 
+ipcMain.on("rtm-sqlite", async (event, message) => {
+  try {
+    await sequelize.authenticate();
+    event.reply("mtr-sqlite", db_path);
+  } catch (e) {
+    event.reply("mtr-sqlite", false);
+  }
+});
