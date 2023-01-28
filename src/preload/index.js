@@ -1,10 +1,10 @@
 import { contextBridge } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
-import { db_path } from "../db";
+import { db_path, sqliteInit } from "../db";
 
 const fs = require("node:fs");
 const process = require("node:process");
-const path = require("node:path");
+// const path = require("node:path");
 
 // Custom APIs for renderer
 const api = {};
@@ -25,5 +25,11 @@ if (process.contextIsolated) {
 }
 
 //main
-const fd = fs.openSync(db_path, "w"); // w 标志将确保创建空文件，非空则覆盖
-fs.closeSync(fd); //创建后就关闭
+fs.open(db_path, "wx", async (err, fd) => {// wx标志非空则不覆盖,存在会抛出异常
+  if (!err) { //不存在才初始化，存在了直接跳过
+    await sqliteInit();
+    fs.close(fd);
+  }
+});
+
+

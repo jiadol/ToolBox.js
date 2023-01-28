@@ -61,10 +61,7 @@ import { defineComponent, reactive, ref, toRefs, watch } from "vue";
 import { Search, SwitchButton } from "@element-plus/icons-vue";
 import ImageUpload from "@renderer/components/ImageSelect.vue";
 import { ElMessage } from "element-plus";
-import sagiri from "sagiri";
 
-const fs = require("fs");
-const Store = require("electron-store");
 const electron = require("electron");
 
 const formRef = ref();
