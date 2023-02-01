@@ -2,28 +2,28 @@
   <div class="common-layout">
     <el-container>
       <el-aside>
-        <el-menu default-active="1" v-model="nowIndex" class="main-menu" router>
+        <el-menu default-active="0"  class="main-menu" router>
           <el-menu-item index="ncnn">
             <el-icon>
-              <Cellphone/>
+              <Cellphone />
             </el-icon>
-            <template #title>Waifu2x-ncnn</template>
+            <template #title>ncnn</template>
           </el-menu-item>
           <el-menu-item index="ocr">
             <el-icon>
-              <View/>
+              <View />
             </el-icon>
             <template #title>OCR</template>
           </el-menu-item>
           <el-menu-item index="search">
             <el-icon>
-              <Search/>
+              <Search />
             </el-icon>
             <template #title>BaiduBce</template>
           </el-menu-item>
           <el-menu-item index="settings">
             <el-icon>
-              <Setting/>
+              <Setting />
             </el-icon>
             <template #title>Settings</template>
           </el-menu-item>
@@ -31,13 +31,14 @@
       </el-aside>
       <el-container>
         <el-main>
-          <keep-alive>
-            <router-view class="layout-body" v-if="$route.meta.keepAlive"/>
-          </keep-alive>
-          <router-view class="layout-body" v-if="!$route.meta.keepAlive"/>
+          <router-view v-slot="{Component}">
+            <keep-alive>
+              <component :is="Component" />
+            </keep-alive>
+          </router-view>
         </el-main>
         <el-footer align="center">
-          <span style="font-size: x-small">@ 2022 alchemaniaC All Rights Reserved Version 0.3 beta</span>
+          <span style="font-size: small">@ 2022 alchemaniaC All Rights Reserved Version 0.3 beta</span>
         </el-footer>
       </el-container>
     </el-container>
@@ -49,20 +50,18 @@ import {
   Search,
   Setting,
   View,
-  Cellphone,
-} from '@element-plus/icons-vue'
-import {ref, reactive, toRefs} from 'vue';
+  Cellphone
+} from "@element-plus/icons-vue";
 
-const state = reactive({
-  rootSubmenuKeys: ['3'],
-  openKeys: [],
-  selectedKeys: [],
-})
-const nowIndex = ref("1-1")
+// import { ref, reactive, toRefs } from "vue";
+//
+// const state = reactive({
+//   rootSubmenuKeys: ["3"],
+//   openKeys: [],
+//   selectedKeys: []
+// });
+// const nowIndex = ref("ncnn");
 
-const handleSelect = (key, keyPath) => {
-  nowIndex.value = key
-}
 
 </script>
 
@@ -74,21 +73,5 @@ const handleSelect = (key, keyPath) => {
 
 .main-menu {
   height: 100vh;
-}
-
-/*.el-row:last-child {*/
-/*  margin-bottom: 0;*/
-/*}*/
-
-/*.el-col {*/
-/*  border-radius: 4px;*/
-/*}*/
-
-/*.el-header {*/
-/*  padding: 0%*/
-/*}*/
-
-.flex-grow {
-  flex-grow: 1;
 }
 </style>

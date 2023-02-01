@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.toolbox.app
 productName: toolbox.js
 directories:
   buildResources: build
@@ -6,15 +6,16 @@ files:
   - '!**/.vscode/*'
   - '!src/*'
   - '!electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
-extraResources:
+  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md,.npmrc,.yarnclean}'
+  - '!resources/*'
+extraFiles:
   from: "resources/ncnn"
-  to: "ncnn"
+  to: "resources/ncnn"
 asarUnpack:
   - resources/*
 afterSign: build/notarize.js
 win:
-  executableName: toolbox.js
+  executableName: _toolbox
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

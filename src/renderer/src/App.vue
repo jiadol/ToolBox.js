@@ -6,7 +6,7 @@
   <router-view></router-view>
 </template>
 
-<style lang='css'>
+<style lang="css">
 /*解决出现滚动条问题*/
 html,
 body,

@@ -40,18 +40,35 @@
       </el-form>
     </el-main>
     <el-footer>
-      <el-card>
-        <el-table :data="resultData" border height="250">
-          <el-table-column prop="site" label="数据来源" />
-          <el-table-column prop="similarity" label="置信度" />
-          <el-table-column prop="author" label="作者" />
-          <el-table-column label="URL" width="80" fixed="right">
-            <template v-slot="scope">
-              <el-link type="primary" :herf="scope.row.url">链接</el-link>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-card>
+
+      <el-carousel :autoplay="false" direction="vertical">
+        <el-carousel-item key="1">
+          <el-table :data="resultData" border height="300">
+            <el-table-column prop="site" label="数据来源" />
+            <el-table-column prop="similarity" label="置信度" />
+            <el-table-column prop="author" label="作者" />
+            <el-table-column label="URL" width="80" fixed="right">
+              <template v-slot="scope">
+                <el-link type="primary" :herf="scope.row.url">链接</el-link>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-carousel-item>
+        <el-carousel-item key="2">
+          <el-table :data="resultData" border height="300">
+            <el-table-column prop="site" label="数据来源" />
+            <el-table-column prop="similarity" label="置信度" />
+            <el-table-column prop="author" label="作者" />
+            <el-table-column label="URL" width="80" fixed="right">
+              <template v-slot="scope">
+                <el-link type="primary" :herf="scope.row.url">链接</el-link>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-carousel-item>
+      </el-carousel>
+
+
     </el-footer>
   </el-container>
 </template>
@@ -119,3 +136,9 @@ const marks = {
 };
 
 </script>
+
+<style>
+.el-carousel__item {
+  background-color: #99a9bf;
+}
+</style>

@@ -3,7 +3,7 @@ import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 import sagiri from "sagiri";
-import { sequelize, db_path, envDb } from "../db";
+import { TraceMoe } from "trace.moe.ts";
 
 function createWindow() {
   // Create the browser window.
@@ -94,32 +94,27 @@ app.on("web-contents-created", (e, webContents) => {
 // code. You can also put them in separate files and require them here.
 
 // 接收从渲染进程发送到主进程的消息
-ipcMain.on("rtm-sagiri", async (event, message) => {
+
+/* server:baidubce:0,trace.moe:1,sauceNao:2
+ * message:html or filepath
+ * type: html:0,localfile:1
+ *
+ * }
+ */
+ipcMain.on("rtm-sagiri", async (event, server, message, type) => {
   try {
-    const client = sagiri("a95606255abbf3c402bcd3a94566ab48aef5273b");
-    const res = await client(message);
-    event.reply("mtr-sagiri", res);
+    if (server === 0) {
+      return;
+    } else if (server === 1) {
+      const _api = new TraceMoe();
+      const res = type === 0 ? await _api.fetchAnime(message) : await _api.fetchAnimeFromBuffer(fs.readFileSync(message));
+      event.reply("mtr-sagiri", res);
+    } else if (server === 2) {
+      const client = sagiri("a95606255abbf3c402bcd3a94566ab48aef5273b");
+      const res = await client(message);
+      event.reply("mtr-sagiri", res);
+    }
   } catch (e) {
     event.reply("mtr-sagiri", e);
-  }
-});
-
-ipcMain.on("rtm-settings", async (event, message) => {
-  try {
-    const _tmp = JSON.parse(message);
-    for (const [key, value] of Object.entries(_tmp)) {
-      const _col = await envDb.findByPk(key);
-      if (_col === null) {
-        await envDb.create({
-          KEY: key, VALUE: value
-        });
-      } else {
-        _col.VALUE = value;
-        await _col.save();
-      }
-    }
-    event.reply("mtr-settings", true);
-  } catch (e) {
-    event.reply("mtr-settings", false);
   }
 });
