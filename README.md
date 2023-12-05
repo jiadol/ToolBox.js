@@ -1,8 +1,8 @@
 
-# PixelBox
+# ToolBox.js
 
 ## Overview
-Toolbox.js is a versatile Electron application integrated with Vue.js, designed to provide a range of utilities for image processing and search functionalities. It leverages modern web technologies to offer a desktop application experience.
+Toolbox.js is a versatile Electron application integrated with Vue.js, designed to provide a range of utilities for JS. It leverages modern web technologies to offer a desktop application experience.
 
 ## Features
 
@@ -17,6 +17,8 @@ Toolbox.js is a versatile Electron application integrated with Vue.js, designed 
 - **Search Engine Selection**: The application supports multiple search engines, including BaiduBCE, Trace.moe, and SauceNAO.
 - **Progress Tracking**: Displays the progress of the search operation.
 - **Search Results**: Presents search results with data like source, confidence level, author, and URL.
+
+### ...
 
 ## Installation and Setup
 
