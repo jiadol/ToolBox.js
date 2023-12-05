@@ -1,5 +1,5 @@
 
-# Toolbox.js
+# PixelBox
 
 ## Overview
 Toolbox.js is a versatile Electron application integrated with Vue.js, designed to provide a range of utilities for image processing and search functionalities. It leverages modern web technologies to offer a desktop application experience.
