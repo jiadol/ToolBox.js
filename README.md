@@ -1,41 +1,55 @@
-# toolbox.js
 
-An Electron application with Vue
+# Toolbox.js
 
-## Recommended IDE Setup
+## Overview
+Toolbox.js is a versatile Electron application integrated with Vue.js, designed to provide a range of utilities for image processing and search functionalities. It leverages modern web technologies to offer a desktop application experience.
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+## Features
 
-## Project Setup
+### Image Processing (NCNN Management)
+- **Path Selection**: Users can specify input and output paths for image processing.
+- **GPU Selection**: Offers an option to select the GPU for processing (currently set to auto-select).
+- **Noise Reduction**: Users can choose the level of noise reduction for the images.
+- **Image Upscaling**: Supports multiple levels of image upscaling, allowing users to enhance image resolution.
 
-### Install
+### Image Search Management
+- **Image Upload**: Users can upload images to perform search operations.
+- **Search Engine Selection**: The application supports multiple search engines, including BaiduBCE, Trace.moe, and SauceNAO.
+- **Progress Tracking**: Displays the progress of the search operation.
+- **Search Results**: Presents search results with data like source, confidence level, author, and URL.
 
+## Installation and Setup
+
+### Prerequisites
+- Node.js
+- Electron
+
+### Installing Dependencies
 ```bash
-$ npm install
+npm install
 ```
 
-### Development
-
+### Running the Application
 ```bash
-$ npm run dev
+npm run dev
 ```
 
-### Build
+### Building the Application
+For different platforms:
+- **Windows**: `npm run build:win`
+- **macOS**: `npm run build:mac`
+- **Linux**: `npm run build:linux`
 
-```bash
-# For windows
-$ npm run build:win
+## Project Structure
+- **Main Process**: `src/main/index.js` - Initializes the Electron application and manages system-level interactions.
+- **Preload Scripts**: `src/preload/index.js` - Safely exposes Node.js features to the renderer process.
+- **Renderer Process**: `src/renderer/src/main.js` - Entry point for the Vue.js components that make up the user interface.
+- **Views**:
+  - NCNN Management: `src/renderer/src/views/ncnnManage/Ncnn.vue`
+  - Image Search: `src/renderer/src/views/searchManage/ImgSearch.vue`
 
-# For macOS
-$ npm run build:mac
+## Contributing
+Contributions are welcome. Please fork the repository and submit a pull request with your changes.
 
-# For Linux
-$ npm run build:linux
-```
-
-# 打包注意事项
-
-1. 不能一股脑排除node_modules
-2. 不能完全不排除node_modules,只能尽量减少dependences的大小
-3. 使用extraResources项避免二次打包
-4. 使用yarn autoclean --force,删除node_modules包中的无用文件，详见.yarnclean,去除各类文本文件后可减少约50M
+## License
+This project is licensed under the MIT License.
